@@ -1,7 +1,7 @@
-LLVM_CONFIG ?= llvm-config
+LLVM_CONFIG ?= llvm-config33
 LLVM_LDFLAGS := $(shell ${LLVM_CONFIG} --ldflags)
 CXXFLAGS := $(shell ${LLVM_CONFIG} --cxxflags) -Wall -Wno-strict-aliasing \
-	$(if $(DEBUG),-O0 -g)
+	$(if $(DEBUG),-O0 -g) -fno-rtti
 LDFLAGS := -fPIC -g -Wl,-R -Wl,'$$ORIGIN' $(LLVM_LDFLAGS) -shared
 
 build: libclang-index-plugin.so

@@ -84,7 +84,7 @@ def build_instance(config_path, nb_jobs=None, tree=None, verbose=False):
         # Build everything if no tree is provided
         trees = config.trees
 
-    es = ElasticSearch(config.es_hosts)
+    es = ElasticSearch(config.es_hosts, timeout=3600)
 
     print " - Generating target folder."
     create_skeleton(config)
@@ -523,7 +523,7 @@ def index_chunk(tree, tree_indexers, paths, index, swallow_exc=False):
     """
     path = '(no file yet)'
     try:
-        es = ElasticSearch(tree.config.es_hosts)
+        es = ElasticSearch(tree.config.es_hosts, timeout=3600)
         jinja_env = load_template_env()
         for path in paths:
             index_file(tree, tree_indexers, path, es, index, jinja_env)

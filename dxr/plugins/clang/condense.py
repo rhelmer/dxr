@@ -6,6 +6,7 @@ reason to keep this IR.]
 
 """
 import csv
+import sys
 from hashlib import sha1
 from os import path
 from glob import glob
@@ -27,6 +28,7 @@ POSSIBLE_FIELDS = set(['call', 'macro', 'function', 'variable', 'ref',
                        'type', 'impl', 'decldef', 'typedef', 'warning',
                        'namespace', 'namespace_alias', 'include'])
 
+csv.field_size_limit(sys.maxsize)
 
 def c_type_sig(inputs, output, method=None):
     """Return FuncSig based on C style input, output, and method."""

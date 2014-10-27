@@ -87,6 +87,13 @@ class MenuTests(DxrInstanceTestCase):
                 {'html': 'Jump to file',
                  'href': '/code/source/extern.c'})
 
+    def test_more_includes(self):
+        """Make sure #include cross references are linked."""
+        menu_on(self.page('more_code/main.cpp'),
+                '"extern.c"',
+                {'html': 'Jump to file',
+                 'href': '/code/source/extern.c'})
+
     def test_functions(self):
         """Make sure functions are found and have a representative sane menu item."""
         menu_on(self.page('extern.c'),

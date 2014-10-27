@@ -88,10 +88,12 @@ mappings = {
 class FileToIndex(FileToIndexBase):
     """C and C++ indexer using clang compiler plugin"""
 
-    def __init__(self, path, contents, tree, inherit):
+    def __init__(self, path, contents, tree, inherit, temp, file):
         super(FileToIndex, self).__init__(path, contents, tree)
         self.inherit = inherit
-        self.condensed = load_csv(*os.path.split(path))
+        if not tree.source_folder.endswith('/'):
+            tree.source_folder += '/'
+        self.condensed = load_csv(temp, file)
 
     def needles_by_line(self):
         return all_needles(self.condensed,
@@ -242,8 +244,8 @@ class TreeToIndex(TreeToIndexBase):
         flags_str = " ".join(imap('-Xclang {}'.format, flags))
 
         env = {
-            'CC': "clang %s" % flags_str,
-            'CXX': "clang++ %s" % flags_str,
+            'CC': "/usr/local/bin/clang33 %s" % flags_str,
+            'CXX': "/usr/local/bin/clang++33 %s" % flags_str,
             'DXR_CLANG_FLAGS': flags_str,
             'DXR_CXX_CLANG_OBJECT_FOLDER': tree.object_folder,
             'DXR_CXX_CLANG_TEMP_FOLDER': temp_folder,
@@ -258,4 +260,5 @@ class TreeToIndex(TreeToIndexBase):
 
     def file_to_index(self, path, contents):
         return FileToIndex(os.path.join(
-                self._temp_folder, path), contents, self.tree, self._inherit)
+                self._temp_folder, path), contents, self.tree, self._inherit,
+                self._temp_folder, path)
