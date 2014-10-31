@@ -403,9 +403,7 @@ def split_into_lines(triples):
         if extent.end.row == extent.start.row:
             yield key, mapping, extent
         elif extent.end.row < extent.start.row:
-            #raise ValueError('Bad Extent: end.row < start.row')
-            # TODO fix, just print and skip for now
-            print ValueError('Bad Extent: end.row < start.row')
+            raise ValueError('Bad Extent: end.row < start.row')
         else:
             # TODO: There are a lot of Nones used as slice bounds below. Do we
             # ever translate them back into char offsets? If not, does the
